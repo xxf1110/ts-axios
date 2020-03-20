@@ -52,3 +52,20 @@ router.post('/base/buffer', function (req, res) {
     res.json(buf.toJSON())
   })
 })
+router.get('/error/get', function (req, res) {
+  if (Math.random() > 0.5) {//随机模拟返回数据 , 可能是正确返回, 也可以是 错误信息
+    res.json({
+      msg: `hello world`
+    })
+  } else {
+    res.status(500)
+    res.end()
+  }
+})
+router.get('/error/timeout', function (req, res) {
+  setTimeout(() => {//延时提交数据
+    res.json({
+      msg: `hello world`
+    })
+  }, 3000)
+})
