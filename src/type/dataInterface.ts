@@ -41,3 +41,5 @@ export interface AxiosError extends Error {
   response?: AxiosResponse
   isAxiosError: boolean
 }
+
+export interface Axios {}
