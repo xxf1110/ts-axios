@@ -22,3 +22,29 @@ export function processHeaders(headers: any, data: any): any {
   }
   return headers
 }
+
+export function parseHeaders(headers: string): any {
+  if (!headers) {
+    return
+  }
+  let parse = Object.create(null)
+  headers.split('\r\n').forEach(line => {
+    let lineArr = line.split(':')
+    let [key, value] = lineArr
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+    if (value) {
+      value = value.trim().replace(/"|'/g, '')
+    }
+    if (key === 'date') {
+      lineArr.splice(0, 1)
+      lineArr = lineArr.map(val => val.trim())
+      parse[key] = lineArr.join(':')
+    } else {
+      parse[key] = value
+    }
+  })
+  return parse
+}
