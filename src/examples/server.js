@@ -154,3 +154,9 @@ function registerExtendRouter() { //注册拓展模块路由
     })
   })
 }
+registerInterceptorRouter()
+function registerInterceptorRouter() {
+  router.get('/interceptor/get', function (req, res) {
+    res.end('hello') // 拦截器示例的请求, 返回的是一个 hello单词
+  }) 
+}
