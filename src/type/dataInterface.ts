@@ -1,5 +1,5 @@
 interface AxiosRequestConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any
   params?: any
@@ -8,7 +8,7 @@ interface AxiosRequestConfig {
   timeout?: number
 }
 
-type Method =
+export type Method =
   | 'get'
   | 'GET'
   | 'delete'
@@ -24,8 +24,8 @@ type Method =
   | 'patch'
   | 'PATCH'
 
-interface AxiosResponse {
-  data: any
+interface AxiosResponse<T = any> {
+  data: T
   status: number
   statusText: string
   headers: any
@@ -33,7 +33,7 @@ interface AxiosResponse {
   request: any
 }
 export { AxiosRequestConfig, AxiosResponse }
-export interface AxiosPromise extends Promise<AxiosResponse> {}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 export interface AxiosError extends Error {
   config: AxiosRequestConfig
   code?: string
@@ -42,4 +42,18 @@ export interface AxiosError extends Error {
   isAxiosError: boolean
 }
 
-export interface Axios {}
+export interface Axios {
+  request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
+  get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  delete<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  head<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  options<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInstance extends Axios {
+  <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
+  <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
