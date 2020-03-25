@@ -158,5 +158,11 @@ registerInterceptorRouter()
 function registerInterceptorRouter() {
   router.get('/interceptor/get', function (req, res) {
     res.end('hello') // 拦截器示例的请求, 返回的是一个 hello单词
-  }) 
+  })
+}
+registerConfigRouter()
+function registerConfigRouter() {
+  router.post('/config/post', function (req, res) {
+    res.json(req.body)
+  })
 }
