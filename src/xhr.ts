@@ -4,7 +4,7 @@ import { createError } from './helpers/error'
 
 function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { method = 'get', url, data = null, headers, responseType, timeout } = config
+    const { method = 'get', url, data = null, headers, responseType, timeout, cancelToken } = config
     const request = new XMLHttpRequest()
     if (responseType) {
       request.responseType = responseType
@@ -20,6 +20,12 @@ function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.setRequestHeader(name, headers[name])
       }
     })
+    if (cancelToken) {
+      cancelToken.promise.then(reason => {
+        request.abort()
+        reject(reason)
+      })
+    }
     request.send(data)
     request.onreadystatechange = function() {
       if (request.readyState !== 4 || request.status === 0) {
