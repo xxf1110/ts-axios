@@ -1,6 +1,6 @@
-import { axios } from '../../index'
+import axios from '../../index'
 
 axios({
   method: 'get',
-  url: '/simple/get', 
+  url: '/simple/get'
 })
